@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.data/
+.dev-ports.json
+web/dist/
+packages/*/dist/
+packages/website/.next/
+packages/website/out/
+*.vsix
+!packages/website/public/*.vsix
+*.db

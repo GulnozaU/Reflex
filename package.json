@@ -1,0 +1,22 @@
+{
+  "name": "ai-skill-evolution",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspace=@ai-skill/skill-core",
+    "test:sanitize": "npm run test:sanitize --workspace=@ai-skill/skill-core",
+    "verify:phase1": "npm run build:core && node scripts/verify-phase1.js",
+    "build": "npm run build --workspaces --if-present",
+    "build:core": "npm run build --workspace=@ai-skill/skill-core",
+    "build:adapter": "npm run build --workspace=reflex",
+    "package:extension": "npm run package --workspace=reflex",
+    "install:extension": "bash scripts/install-extension.sh",
+    "reflex": "node packages/reflex-cli/bin/reflex.js",
+    "build:cli": "npm run build --workspace=@reflex/cli --if-present",
+    "build:website": "npm run build --workspace=@reflex/website",
+    "dev:website": "npm run dev --workspace=@reflex/website",
+    "watch:adapter": "npm run watch --workspace=reflex"
+  }
+}

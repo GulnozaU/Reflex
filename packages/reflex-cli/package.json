@@ -1,0 +1,31 @@
+{
+  "name": "@reflex1abs/cli",
+  "version": "0.1.2",
+  "description": "Install Reflex extension for Cursor and VS Code",
+  "license": "MIT",
+  "author": "Reflex",
+  "bin": {
+    "reflex": "bin/reflex.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GulnozaU/Reflex.git",
+    "directory": "packages/reflex-cli"
+  },
+  "keywords": [
+    "reflex",
+    "cursor",
+    "vscode",
+    "extension",
+    "cli"
+  ]
+}

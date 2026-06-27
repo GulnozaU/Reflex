@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build:core",
+      "type": "shell",
+      "command": "npm run build:core",
+      "group": "build",
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "build:adapter",
+      "type": "shell",
+      "command": "npm run build:core && npm run build:adapter",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$tsc"]
+    }
+  ]
+}

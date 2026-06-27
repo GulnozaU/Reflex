@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #121212;
+  color: #e7e5e4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgb(163 177 138 / 0.28);
+  color: #e7e5e4;
+}
+
+.section-padding {
+  @apply px-5 sm:px-8 lg:px-12;
+}
+
+.section-max {
+  @apply mx-auto max-w-6xl;
+}
+
+.panel {
+  border-radius: 6px;
+  border: 1px solid #303030;
+  background-color: #202020;
+  transition:
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel-interactive:hover {
+  border-color: #404040;
+  background-color: #262626;
+}
+
+.card-grid {
+  @apply grid gap-px overflow-hidden rounded-md border border-line bg-line;
+}
+
+.card-grid > * {
+  @apply bg-card transition-colors duration-200 ease-technical;
+}
+
+.card-grid > *:hover {
+  background-color: #262626;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px #121212,
+    0 0 0 3px #d4a373;
+}
+
+@keyframes blink-cursor {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  animation: blink-cursor 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

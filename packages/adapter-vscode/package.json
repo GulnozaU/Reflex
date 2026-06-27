@@ -1,0 +1,65 @@
+{
+  "name": "reflex",
+  "displayName": "Reflex",
+  "description": "Local-first workflow memory for AI coding sessions (Cursor / VS Code)",
+  "version": "0.1.0",
+  "publisher": "reflex",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GulnozaU/Reflex"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiSkillEvolution.showProbe",
+        "title": "AI Skill: Show Terminal Probe Output",
+        "category": "AI Skill"
+      },
+      {
+        "command": "aiSkillEvolution.probeTerminal",
+        "title": "AI Skill: Probe Terminal API (dev)",
+        "category": "AI Skill"
+      },
+      {
+        "command": "aiSkillEvolution.resetConsent",
+        "title": "AI Skill: Reset Consent",
+        "category": "AI Skill"
+      }
+    ],
+    "configuration": {
+      "title": "AI Skill Evolution",
+      "properties": {
+        "aiSkillEvolution.logTerminalProbe": {
+          "type": "boolean",
+          "default": true,
+          "description": "Log terminal shell execution events to Output panel (Phase 1 dev probe)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "package": "npm run build && cp ../../LICENSE LICENSE && vsce package --no-dependencies && rm -f LICENSE"
+  },
+  "dependencies": {
+    "@ai-skill/skill-core": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "@vscode/vsce": "^3.2.1",
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

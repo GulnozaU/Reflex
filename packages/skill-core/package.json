@@ -1,0 +1,21 @@
+{
+  "name": "@ai-skill/skill-core",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:sanitize": "vitest run src/capture/sanitize.test.ts",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "sql.js": "^1.10.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  }
+}

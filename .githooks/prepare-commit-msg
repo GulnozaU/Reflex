@@ -1,0 +1,6 @@
+#!/bin/sh
+# Strip Cursor attribution before the commit message is finalized.
+if [ -f "$1" ]; then
+  grep -viE 'co-authored-by:.*cursor|made-with:.*cursor|cursoragent@cursor\.com' "$1" > "$1.reflex-hook" 2>/dev/null && mv "$1.reflex-hook" "$1"
+fi
+exit 0

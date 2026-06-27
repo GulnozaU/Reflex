@@ -1,0 +1,6 @@
+#!/bin/sh
+# Remove Cursor agent co-author trailers so GitHub does not list cursoragent as a contributor.
+if [ -f "$1" ] && grep -qi 'co-authored-by:.*cursor' "$1" 2>/dev/null; then
+  grep -vi 'co-authored-by:.*cursor' "$1" > "$1.reflex-hook" && mv "$1.reflex-hook" "$1"
+fi
+exit 0
