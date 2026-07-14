@@ -2,6 +2,8 @@
 
 Local-first workflow memory layer for coding agents and IDEs.
 
+**Website:** [https://reflex-virid.vercel.app](https://reflex-virid.vercel.app)
+
 Captures file edits and terminal output, detects repeated debugging loops with rule-based matching, and surfaces saved fix summaries. See [ARCHITECTURE.md](ARCHITECTURE.md) for the full system definition.
 
 ## Architecture
