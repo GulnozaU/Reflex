@@ -16,7 +16,9 @@ module.exports = {
   devtool: 'source-map',
   externals: {
     vscode: 'commonjs vscode',
-    'sql.js': 'commonjs sql.js'
+    // Packaged beside the extension as vendor/sql.js (see scripts/stage-sqljs.js).
+    // From dist/extension.js this resolves to ../vendor/sql.js.
+    'sql.js': 'commonjs ../vendor/sql.js'
   },
   resolve: {
     extensions: ['.ts', '.js']

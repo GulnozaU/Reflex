@@ -1,11 +1,14 @@
 {
   "name": "@reflex1abs/cli",
-  "version": "0.1.2",
-  "description": "Install Reflex extension for Cursor and VS Code",
+  "version": "0.1.7",
+  "description": "Install Reflex — local workflow memory for coding agents. Installs into Cursor and VS Code.",
   "license": "MIT",
   "author": "Reflex",
   "bin": {
     "reflex": "bin/reflex.js"
+  },
+  "scripts": {
+    "start": "node bin/reflex.js"
   },
   "files": [
     "bin"
@@ -23,6 +26,8 @@
   },
   "keywords": [
     "reflex",
+    "claude-code",
+    "codex",
     "cursor",
     "vscode",
     "extension",

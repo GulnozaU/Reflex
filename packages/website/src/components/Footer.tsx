@@ -1,3 +1,4 @@
+import { PRODUCT_DEFINITION } from '@/lib/product';
 import { GITHUB_URL } from '@/lib/github';
 
 export function Footer() {
@@ -6,7 +7,7 @@ export function Footer() {
       <div className="section-max flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="font-mono text-sm text-foreground">reflex</p>
-          <p className="mt-1 text-sm text-muted">Developer infrastructure for coding agent memory.</p>
+          <p className="mt-1 text-sm text-muted">{PRODUCT_DEFINITION}</p>
         </div>
         <nav aria-label="Footer">
           <ul className="flex flex-wrap gap-6 text-sm text-muted">
@@ -21,8 +22,8 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href="#privacy-heading" className="transition-colors hover:text-foreground">
-                Privacy
+              <a href="#local-runtime" className="transition-colors hover:text-foreground">
+                Local runtime
               </a>
             </li>
             <li>

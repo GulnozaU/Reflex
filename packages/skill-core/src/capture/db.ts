@@ -27,7 +27,17 @@ const SCHEMA = `
   CREATE INDEX IF NOT EXISTS idx_loop_occurrences_type_shape ON loop_occurrences(loop_type, file_shape, recorded_at);
 `;
 
-function resolveSqlJsDir(): string {
+function resolveSqlJsDir(explicit?: string): string {
+  if (explicit && fs.existsSync(explicit)) {
+    return explicit;
+  }
+
+  // Packaged VS Code extension: dist/extension.js → ../vendor/sql.js/dist
+  const packaged = path.join(__dirname, '..', 'vendor', 'sql.js', 'dist');
+  if (fs.existsSync(packaged)) {
+    return packaged;
+  }
+
   try {
     return path.join(path.dirname(require.resolve('sql.js')), '..', 'dist');
   } catch {
@@ -42,7 +52,11 @@ function persist(): void {
   fs.writeFileSync(dbPath, Buffer.from(db.export()));
 }
 
-export async function initCaptureStore(options: { dbPath: string }): Promise<void> {
+export async function initCaptureStore(options: {
+  dbPath: string;
+  /** Directory containing sql-wasm.wasm (e.g. extension vendor/sql.js/dist). */
+  sqlJsDistDir?: string;
+}): Promise<void> {
   if (db) {
     closeCaptureStore();
   }
@@ -52,8 +66,9 @@ export async function initCaptureStore(options: { dbPath: string }): Promise<voi
     fs.mkdirSync(dir, { recursive: true });
   }
 
+  const sqlJsDir = resolveSqlJsDir(options.sqlJsDistDir);
   const SQL = await initSqlJs({
-    locateFile: (file) => path.join(resolveSqlJsDir(), file)
+    locateFile: (file) => path.join(sqlJsDir, file)
   });
 
   if (fs.existsSync(options.dbPath)) {

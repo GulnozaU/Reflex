@@ -12,6 +12,7 @@ export {
   detectTestFixLoop,
   detectApiSchemaLoop
 } from './detection/detectors';
+export { detectAllLoops } from './detection/runDetection';
 export {
   detectTypeErrorStart,
   detectTestFixStart,
@@ -45,3 +46,15 @@ export {
 } from './storage/patternStore';
 
 export { findRelevantPattern } from './replay/matchPattern';
+
+export {
+  PRODUCT_DEFINITION,
+  PRODUCT_IS,
+  PRODUCT_IS_NOT,
+  INSTALL_TARGETS,
+  COMPATIBLE_ASSISTANTS,
+  LOCAL_FIRST_POINTS,
+  CLARITY,
+  CLI_PACKAGE,
+  CLI_INSTALL_COMMAND
+} from './product';

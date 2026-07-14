@@ -12,7 +12,7 @@ const config: Config = {
         foreground: '#E7E5E4',
         muted: '#A8A29E',
         sage: '#A3B18A',
-        bronze: '#D4A373'
+        accent: '#8FB4B4'
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
@@ -22,15 +22,10 @@ const config: Config = {
         DEFAULT: '6px'
       },
       animation: {
-        'grid-drift': 'grid-drift 80s linear infinite',
-        'status-pulse': 'status-pulse 2s ease-in-out infinite',
+        'status-pulse': 'status-pulse 2.5s ease-in-out infinite',
         'fade-up': 'fade-up 0.55s ease-out both'
       },
       keyframes: {
-        'grid-drift': {
-          '0%': { transform: 'translate(0, 0)' },
-          '100%': { transform: 'translate(40px, 40px)' }
-        },
         'status-pulse': {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.5' }

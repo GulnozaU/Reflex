@@ -1,23 +1,33 @@
+import { COMPATIBLE_ASSISTANTS, INSTALL_TARGETS } from '@/lib/product';
+
 const faqs = [
   {
-    q: 'Does Reflex replace my AI coding agent?',
-    a: 'No. Reflex improves the workflow around agents — it captures what you do locally, detects repeated debugging loops, and surfaces saved fixes when similar failures start again. Your agent still writes code; Reflex adds memory.'
+    q: 'What is Reflex?',
+    a: 'A local-first workflow memory layer for coding agents and IDEs. It captures file edits and terminal output, detects repeated debugging loops with rule-based matching, and surfaces saved fix summaries. It is not an AI model or code generator.'
   },
   {
-    q: 'Does my code leave my machine?',
-    a: 'Reflex is local-first. Session traces are stored in SQLite on your machine (editor global storage). Saved patterns live in `.local-patterns/patterns.json` inside your project. Reflex does not upload your code or traces to a cloud service.'
+    q: 'Where does Reflex install?',
+    a: `Into ${INSTALL_TARGETS} — both are VS Code–compatible hosts. One extension adapter, one skill-core data format.`
   },
   {
-    q: 'Who is it for?',
-    a: 'Developers who use AI coding tools daily — Cursor, VS Code with Copilot or similar — and hit the same debugging patterns repeatedly. If you have never re-fixed the same class of test failure twice, you may not need Reflex yet.'
+    q: 'How do Claude Code, Codex, and Cursor Agent fit in?',
+    a: `Reflex does not have separate adapters for each assistant. When you use ${COMPATIBLE_ASSISTANTS}, Reflex observes the same file edits and terminal commands through the editor extension.`
   },
   {
-    q: 'What loop types does Reflex detect today?',
-    a: 'Test-fix loops (fail → fix in src → pass), type-error build loops, and API/schema error loops. Detection runs locally against your recent session traces — no LLM calls for pattern matching.'
+    q: 'Where is my data stored?',
+    a: 'Session traces in SQLite on your machine (traces.db). Saved patterns in .local-patterns/patterns.json in your project. Core runtime does not upload traces or patterns to a Reflex server.'
+  },
+  {
+    q: 'What loop types does Reflex detect?',
+    a: 'Test-fix loops, type-error build loops, and API/schema error loops. Detection runs locally via detectAllLoops() in skill-core — no model calls.'
+  },
+  {
+    q: 'How do I install?',
+    a: 'Node.js 18+ and Cursor or VS Code. Run npx @reflex1abs/cli — it detects your editor, installs Reflex, verifies the install, and can restart the editor for you. Click Enable on the one-time consent prompt. No Reflex account or API key.'
   },
   {
     q: 'Is Reflex open source?',
-    a: 'The project is MIT licensed. See the GitHub repository for source, issues, and contribution guidelines.'
+    a: 'MIT licensed. See the GitHub repository for source and issues.'
   }
 ];
 
@@ -30,7 +40,7 @@ export function FAQ() {
         </h2>
         <dl className="mt-10 divide-y divide-line border-y border-line">
           {faqs.map((item) => (
-            <div key={item.q} className="py-6 transition-colors hover:bg-surface/40">
+            <div key={item.q} className="py-6">
               <dt className="text-base font-medium text-foreground">{item.q}</dt>
               <dd className="mt-2 text-sm leading-relaxed text-muted">{item.a}</dd>
             </div>

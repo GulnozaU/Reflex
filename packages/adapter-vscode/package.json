@@ -1,8 +1,8 @@
 {
   "name": "reflex",
   "displayName": "Reflex",
-  "description": "Local-first workflow memory for AI coding sessions (Cursor / VS Code)",
-  "version": "0.1.0",
+  "description": "Local-first workflow memory layer for coding agents and IDEs (Cursor and VS Code)",
+  "version": "0.1.5",
   "publisher": "reflex",
   "private": true,
   "repository": {
@@ -13,34 +13,69 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["onStartupFinished"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "aiSkillEvolution.showProbe",
-        "title": "AI Skill: Show Terminal Probe Output",
-        "category": "AI Skill"
+        "command": "reflex.enable",
+        "title": "Enable Reflex",
+        "category": "Reflex"
       },
       {
-        "command": "aiSkillEvolution.probeTerminal",
-        "title": "AI Skill: Probe Terminal API (dev)",
-        "category": "AI Skill"
+        "command": "reflex.showActivity",
+        "title": "Show Activity",
+        "category": "Reflex"
+      },
+      {
+        "command": "reflex.statusBarClick",
+        "title": "Status Bar",
+        "category": "Reflex"
+      },
+      {
+        "command": "aiSkillEvolution.showProbe",
+        "title": "Show Activity (legacy)",
+        "category": "Reflex"
       },
       {
         "command": "aiSkillEvolution.resetConsent",
-        "title": "AI Skill: Reset Consent",
-        "category": "AI Skill"
+        "title": "Reset & Enable",
+        "category": "Reflex"
+      },
+      {
+        "command": "aiSkillEvolution.probeTerminal",
+        "title": "Show Activity (dev)",
+        "category": "Reflex"
       }
     ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "reflex.statusBarClick",
+          "when": "false"
+        },
+        {
+          "command": "aiSkillEvolution.showProbe",
+          "when": "false"
+        },
+        {
+          "command": "aiSkillEvolution.probeTerminal",
+          "when": "false"
+        }
+      ]
+    },
     "configuration": {
-      "title": "AI Skill Evolution",
+      "title": "Reflex",
       "properties": {
         "aiSkillEvolution.logTerminalProbe": {
           "type": "boolean",
           "default": true,
-          "description": "Log terminal shell execution events to Output panel (Phase 1 dev probe)"
+          "description": "Log file and terminal capture events to the Reflex output panel"
         }
       }
     }
@@ -48,10 +83,12 @@
   "scripts": {
     "build": "webpack --mode production",
     "watch": "webpack --mode development --watch",
-    "package": "npm run build && cp ../../LICENSE LICENSE && vsce package --no-dependencies && rm -f LICENSE"
+    "stage:sqljs": "node ./scripts/stage-sqljs.js",
+    "package": "npm run build && npm run stage:sqljs && cp ../../LICENSE LICENSE && vsce package --no-dependencies && rm -f LICENSE"
   },
   "dependencies": {
-    "@ai-skill/skill-core": "0.1.0"
+    "@ai-skill/skill-core": "0.1.0",
+    "sql.js": "^1.10.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/next';
+import { PRODUCT_DEFINITION } from '@/lib/product';
+import { SITE_URL } from '@/lib/github';
 import './globals.css';
 
 const sans = Inter({
@@ -15,37 +17,37 @@ const mono = JetBrains_Mono({
   display: 'swap'
 });
 
-const siteUrl = 'https://reflex.dev';
+const title = 'Reflex — local workflow memory for coding agents';
+const description = PRODUCT_DEFINITION + ' Captures file and terminal traces locally, detects repeated debugging loops, and surfaces saved fix summaries.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: 'Reflex — Your AI coding agent learns what works',
-  description:
-    'Reflex captures successful workflows, fixes, and repeated patterns from real coding sessions — then reuses them when similar situations appear.',
+  metadataBase: new URL(SITE_URL),
+  title,
+  description,
   keywords: [
     'Reflex',
-    'AI coding',
+    'workflow memory',
+    'local-first',
     'Cursor',
     'VS Code',
-    'developer tools',
-    'local-first',
-    'workflow memory'
+    'Claude Code',
+    'Codex',
+    'developer tools'
   ],
   authors: [{ name: 'Reflex' }],
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: siteUrl,
+    url: SITE_URL,
     siteName: 'Reflex',
-    title: 'Reflex — Your AI coding agent learns what works',
-    description:
-      'Local-first developer infrastructure. Capture workflows, detect patterns, save fixes, replay when needed.',
+    title,
+    description,
     images: [{ url: '/og.svg', width: 1200, height: 630, alt: 'Reflex' }]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Reflex — Your AI coding agent learns what works',
-    description: 'Developer infrastructure for coding agent memory. Cursor and VS Code.',
+    title,
+    description,
     images: ['/og.svg']
   },
   robots: { index: true, follow: true },
