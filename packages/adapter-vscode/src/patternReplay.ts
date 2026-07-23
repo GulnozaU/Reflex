@@ -6,6 +6,7 @@ import {
   recordOutcome,
   SavedPattern
 } from '@ai-skill/skill-core';
+import { sendPatternToAgent } from './sendToAgent';
 
 const shownPatternIds = new Set<string>();
 let statusBarItem: vscode.StatusBarItem | null = null;
@@ -20,10 +21,21 @@ function disposeStatusBar(): void {
 async function showPatternDetail(pattern: SavedPattern): Promise<void> {
   const choice = await vscode.window.showInformationMessage(
     pattern.fixSummary,
+    'Use in Agent',
     'Helped',
     "Didn't help",
     'Dismiss'
   );
+
+  if (choice === 'Use in Agent') {
+    recordOutcome(pattern.id, {
+      wasShown: true,
+      userClickedView: true,
+      thumbsUp: null
+    });
+    await sendPatternToAgent(pattern);
+    return;
+  }
 
   const thumbsUp = choice === 'Helped' ? true : choice === "Didn't help" ? false : null;
   recordOutcome(pattern.id, {
@@ -38,7 +50,7 @@ function showPatternStatusBar(pattern: SavedPattern): void {
   activePattern = pattern;
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   statusBarItem.text = '$(lightbulb) Pattern available: fixed this before';
-  statusBarItem.tooltip = 'Click to view saved fix';
+  statusBarItem.tooltip = 'Click to view saved fix or send it to Agent';
   statusBarItem.command = 'aiSkillEvolution.viewPattern';
   statusBarItem.show();
 
@@ -57,6 +69,20 @@ export function registerPatternReplay(context: vscode.ExtensionContext): void {
       if (activePattern) {
         void showPatternDetail(activePattern);
       }
+    }),
+    vscode.commands.registerCommand('reflex.useInAgent', async () => {
+      if (!activePattern) {
+        void vscode.window.showInformationMessage(
+          'No matched Reflex pattern right now. It appears when a similar failure starts again.'
+        );
+        return;
+      }
+      recordOutcome(activePattern.id, {
+        wasShown: true,
+        userClickedView: true,
+        thumbsUp: null
+      });
+      await sendPatternToAgent(activePattern);
     })
   );
 }
