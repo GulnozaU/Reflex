@@ -51,6 +51,16 @@
         "command": "aiSkillEvolution.probeTerminal",
         "title": "Show Activity (dev)",
         "category": "Reflex"
+      },
+      {
+        "command": "aiSkillEvolution.viewPattern",
+        "title": "View Matched Pattern",
+        "category": "Reflex"
+      },
+      {
+        "command": "reflex.useInAgent",
+        "title": "Use Matched Pattern in Agent",
+        "category": "Reflex"
       }
     ],
     "menus": {
