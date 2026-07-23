@@ -7,6 +7,10 @@ const LOOP_LABELS: Record<SavedPattern['loopType'], string> = {
   API_SCHEMA_LOOP: 'API/schema error'
 };
 
+function log(message: string): void {
+  vscode.window.createOutputChannel('Reflex').appendLine(`[use-in-agent] ${message}`);
+}
+
 /** Build a short prompt the coding agent can act on from a saved pattern. */
 export function formatPatternPrompt(pattern: SavedPattern): string {
   const files =
@@ -20,6 +24,10 @@ export function formatPatternPrompt(pattern: SavedPattern): string {
     '',
     'Apply this approach rather than rediscovering it from scratch.'
   ].join('\n');
+}
+
+function isCursorHost(): boolean {
+  return /cursor/i.test(vscode.env.appName);
 }
 
 async function tryExecute(command: string, ...args: unknown[]): Promise<boolean> {
@@ -38,17 +46,37 @@ function delay(ms: number): Promise<void> {
 /**
  * Put the pattern into the active agent chat when the host allows it.
  * VS Code: workbench.action.chat.open with query.
- * Cursor: open composer + paste (no public prompt-injection API).
+ * Cursor: open composer + paste (chat.open often no-ops the query here).
  * Last resort: leave text on the clipboard and tell the user to paste.
  */
 export async function sendPatternToAgent(pattern: SavedPattern): Promise<void> {
   const prompt = formatPatternPrompt(pattern);
+  const forceClipboard = vscode.workspace
+    .getConfiguration('reflex')
+    .get<boolean>('forceClipboardAgentFallback', false);
 
-  if (await tryExecute('workbench.action.chat.open', { query: prompt })) {
+  if (forceClipboard) {
+    await vscode.env.clipboard.writeText(prompt);
+    log('forced clipboard fallback (reflex.forceClipboardAgentFallback)');
+    void vscode.window.showInformationMessage(
+      'Reflex pattern copied. Paste it into Agent chat (Ctrl/Cmd+V).'
+    );
     return;
   }
-  if (await tryExecute('workbench.action.chat.open', prompt)) {
-    return;
+
+  // On Cursor, chat.open may resolve without inserting the query — prefer composer paste.
+  if (!isCursorHost()) {
+    if (await tryExecute('workbench.action.chat.open', { query: prompt, isPartialQuery: true })) {
+      log('inserted via workbench.action.chat.open ({ query })');
+      return;
+    }
+    if (await tryExecute('workbench.action.chat.open', prompt)) {
+      log('inserted via workbench.action.chat.open (string)');
+      return;
+    }
+    log('workbench.action.chat.open unavailable');
+  } else {
+    log('Cursor host — skipping workbench.action.chat.open, trying composer paste');
   }
 
   const previousClipboard = await vscode.env.clipboard.readText();
@@ -62,16 +90,21 @@ export async function sendPatternToAgent(pattern: SavedPattern): Promise<void> {
 
   for (const openCmd of cursorOpenCommands) {
     if (!(await tryExecute(openCmd))) {
+      log(`open failed: ${openCmd}`);
       continue;
     }
-    await delay(150);
+    log(`opened with ${openCmd}`);
+    await delay(300);
     if (await tryExecute('editor.action.clipboardPasteAction')) {
-      // Restore prior clipboard after a successful paste; prompt is already in the composer.
+      log('pasted into focused input');
       await vscode.env.clipboard.writeText(previousClipboard);
       return;
     }
+    log('paste command failed after open');
   }
 
+  // Prompt remains on clipboard for manual paste.
+  log('falling back to clipboard-only');
   void vscode.window.showInformationMessage(
     'Reflex pattern copied. Paste it into Agent chat (Ctrl/Cmd+V).'
   );
